@@ -7,8 +7,8 @@ replace gitlab.internal.cloud.payly.com.br/microservices/chassis/events => gitla
 replace gitlab.internal.cloud.payly.com.br/microservices/chassis/logging => gitlab.internal.cloud.payly.com.br/microservices/chassis/logging.git v0.0.3
 
 require (
-	gitlab.internal.cloud.payly.com.br/microservices/chassis/events v0.0.0-00010101000000-000000000000
-	gitlab.internal.cloud.payly.com.br/microservices/chassis/logging v0.0.0-00010101000000-000000000000
+	gitlab.internal.cloud.payly.com.br/microservices/chassis/events v0.0.1
+	gitlab.internal.cloud.payly.com.br/microservices/chassis/logging v0.0.3
 	go.uber.org/dig v1.15.0
 	golang.org/x/exp v0.0.0-20220827204233-334a2380cb91
 )
