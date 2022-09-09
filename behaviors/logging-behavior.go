@@ -1,10 +1,9 @@
 package cqrs_behaviors
 
 import (
-	cqrs_commands "gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs/commands"
-	cqrs_queries "gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs/queries"
-
-	"gitlab.internal.cloud.payly.com.br/microservices/chassis/logging"
+	cqrs_commands "github.com/mitz-it/golang-cqrs/commands"
+	cqrs_queries "github.com/mitz-it/golang-cqrs/queries"
+	logging "github.com/mitz-it/golang-logging"
 )
 
 type LoggingBehavior struct {

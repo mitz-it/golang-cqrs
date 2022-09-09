@@ -1,12 +1,12 @@
 package cqrs_behaviors
 
 import (
-	cqrs_commands "gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs/commands"
+	cqrs_commands "github.com/mitz-it/golang-cqrs/commands"
+	logging "github.com/mitz-it/golang-logging"
 
-	cqrs_queries "gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs/queries"
+	cqrs_queries "github.com/mitz-it/golang-cqrs/queries"
 
-	events "gitlab.internal.cloud.payly.com.br/microservices/chassis/events"
-	"gitlab.internal.cloud.payly.com.br/microservices/chassis/logging"
+	events "github.com/mitz-it/golang-events"
 )
 
 type EventDispatchBehavior struct {

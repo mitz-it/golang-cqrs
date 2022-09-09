@@ -1,9 +1,9 @@
 package cqrs_behaviors
 
 import (
-	cqrs_commands "gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs/commands"
+	cqrs_commands "github.com/mitz-it/golang-cqrs/commands"
 
-	cqrs_queries "gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs/queries"
+	cqrs_queries "github.com/mitz-it/golang-cqrs/queries"
 )
 
 type Action func(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error)

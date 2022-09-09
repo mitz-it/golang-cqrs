@@ -1,14 +1,10 @@
-module gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs
+module github.com/mitz-it/golang-cqrs
 
 go 1.19
 
-replace gitlab.internal.cloud.payly.com.br/microservices/chassis/events => gitlab.internal.cloud.payly.com.br/microservices/chassis/events.git v0.0.1
-
-replace gitlab.internal.cloud.payly.com.br/microservices/chassis/logging => gitlab.internal.cloud.payly.com.br/microservices/chassis/logging.git v0.0.3
-
 require (
-	gitlab.internal.cloud.payly.com.br/microservices/chassis/events v0.0.1
-	gitlab.internal.cloud.payly.com.br/microservices/chassis/logging v0.0.3
+	github.com/mitz-it/golang-events v0.0.1
+	github.com/mitz-it/golang-logging v0.0.1
 	go.uber.org/dig v1.15.0
 	golang.org/x/exp v0.0.0-20220827204233-334a2380cb91
 )

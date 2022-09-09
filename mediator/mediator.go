@@ -7,9 +7,9 @@ import (
 	"go.uber.org/dig"
 	"golang.org/x/exp/slices"
 
-	cqrs_behaviors "gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs/behaviors"
-	cqrs_commands "gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs/commands"
-	cqrs_queries "gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs/queries"
+	cqrs_behaviors "github.com/mitz-it/golang-cqrs/behaviors"
+	cqrs_commands "github.com/mitz-it/golang-cqrs/commands"
+	cqrs_queries "github.com/mitz-it/golang-cqrs/queries"
 )
 
 type MediatorParams struct {

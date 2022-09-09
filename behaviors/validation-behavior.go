@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	cqrs_commands "gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs/commands"
-	cqrs_queries "gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs/queries"
-	cqrs_validators "gitlab.internal.cloud.payly.com.br/microservices/chassis/cqrs/validators"
+	cqrs_commands "github.com/mitz-it/golang-cqrs/commands"
+	cqrs_queries "github.com/mitz-it/golang-cqrs/queries"
+	cqrs_validators "github.com/mitz-it/golang-cqrs/validators"
 
 	"go.uber.org/dig"
 	"golang.org/x/exp/slices"
