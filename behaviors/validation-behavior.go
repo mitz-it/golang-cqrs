@@ -40,10 +40,12 @@ func (behavior *ValidationBehavior) Handle(command cqrs_commands.ICommand) (cqrs
 		return strings.Contains(validatorName, commandName)
 	})
 
-	err := behavior.commandValidators[index].Validate(command)
+	if index > -1 {
+		err := behavior.commandValidators[index].Validate(command)
 
-	if err != nil {
-		return nil, err
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return behavior.Next(command)
