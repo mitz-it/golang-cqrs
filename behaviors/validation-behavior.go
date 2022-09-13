@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	cqrs_commands "github.com/mitz-it/golang-cqrs/commands"
-	cqrs_queries "github.com/mitz-it/golang-cqrs/queries"
-	cqrs_validators "github.com/mitz-it/golang-cqrs/validators"
+	commands "github.com/mitz-it/golang-cqrs/commands"
+	queries "github.com/mitz-it/golang-cqrs/queries"
+	validators "github.com/mitz-it/golang-cqrs/validators"
 
 	"go.uber.org/dig"
 	"golang.org/x/exp/slices"
@@ -14,13 +14,15 @@ import (
 
 type ValidationBehavior struct {
 	Behavior
-	commandValidators []cqrs_validators.ICommandValidator
+	commandValidators []validators.ICommandValidator
+	queryValidators   []validators.IQueryValidator
 }
 
 type ValidationBehaviorParams struct {
 	dig.In
 
-	CommandValidators []cqrs_validators.ICommandValidator `group:"CommandValidators"`
+	CommandValidators []validators.ICommandValidator `group:"CommandValidators"`
+	QueryValidators   []validators.IQueryValidator   `group:"QueryValidators"`
 }
 
 func (behavior *ValidationBehavior) SetNext(next Action) {
@@ -31,8 +33,12 @@ func (behavior *ValidationBehavior) SetNextRequest(next Request) {
 	behavior.NextRequest = next
 }
 
-func (behavior *ValidationBehavior) Handle(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
-	index := slices.IndexFunc(behavior.commandValidators, func(validator cqrs_validators.ICommandValidator) bool {
+func (behavior *ValidationBehavior) Handle(command commands.ICommand) (commands.IResponse, error) {
+	if behavior.commandValidators == nil || len(behavior.commandValidators) <= 0 {
+		return behavior.Next(command)
+	}
+
+	index := slices.IndexFunc(behavior.commandValidators, func(validator validators.ICommandValidator) bool {
 		validatorSplittedName := strings.Split(fmt.Sprintf("%T", validator), ".")
 		validatorName := validatorSplittedName[len(validatorSplittedName)-1]
 		commandSplittedName := strings.Split(fmt.Sprintf("%T", command), ".")
@@ -51,10 +57,33 @@ func (behavior *ValidationBehavior) Handle(command cqrs_commands.ICommand) (cqrs
 	return behavior.Next(command)
 }
 
-func (behavior *ValidationBehavior) HandleQuery(query cqrs_queries.IQuery) cqrs_queries.IResponse {
-	return nil
+func (behavior *ValidationBehavior) HandleQuery(query queries.IQuery) (queries.IResponse, error) {
+	if behavior.queryValidators == nil || len(behavior.queryValidators) <= 0 {
+		return behavior.NextRequest(query)
+	}
+
+	index := slices.IndexFunc(behavior.queryValidators, func(validator validators.IQueryValidator) bool {
+		validatorSplittedName := strings.Split(fmt.Sprintf("%T", validator), ".")
+		validatorName := validatorSplittedName[len(validatorSplittedName)-1]
+		querySplittedName := strings.Split(fmt.Sprintf("%T", query), ".")
+		queryName := querySplittedName[len(querySplittedName)-1]
+		return strings.Contains(validatorName, queryName)
+	})
+
+	if index > -1 {
+		err := behavior.queryValidators[index].Validate(query)
+
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return behavior.Next(query)
 }
 
 func NewValidationBehavior(params ValidationBehaviorParams) IBehavior {
-	return &ValidationBehavior{commandValidators: params.CommandValidators}
+	return &ValidationBehavior{
+		commandValidators: params.CommandValidators,
+		queryValidators:   params.QueryValidators,
+	}
 }

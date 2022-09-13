@@ -23,7 +23,7 @@ type MediatorParams struct {
 
 type IMediator interface {
 	Send(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error)
-	Request(query cqrs_queries.IQuery) cqrs_queries.IResponse
+	Request(query cqrs_queries.IQuery) (cqrs_queries.IResponse, error)
 }
 
 type Mediator struct {
@@ -46,7 +46,7 @@ func (mediator Mediator) Send(command cqrs_commands.ICommand) (cqrs_commands.IRe
 	return mediator.commandBehaviors[0].Handle(command)
 }
 
-func (mediator Mediator) Request(query cqrs_queries.IQuery) cqrs_queries.IResponse {
+func (mediator Mediator) Request(query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
 	position := slices.IndexFunc(mediator.queryHandlers, func(handler cqrs_queries.IQueryHandler) bool {
 		handlerName := fmt.Sprintf("%T", handler)
 		commandName := fmt.Sprintf("%T", query)

@@ -1,19 +1,19 @@
 package cqrs_behaviors
 
 import (
-	cqrs_commands "github.com/mitz-it/golang-cqrs/commands"
+	commands "github.com/mitz-it/golang-cqrs/commands"
 
-	cqrs_queries "github.com/mitz-it/golang-cqrs/queries"
+	queries "github.com/mitz-it/golang-cqrs/queries"
 )
 
-type Action func(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error)
-type Request func(query cqrs_queries.IQuery) cqrs_queries.IResponse
+type Action func(command commands.ICommand) (commands.IResponse, error)
+type Request func(query queries.IQuery) (queries.IResponse, error)
 
 type IBehavior interface {
 	SetNext(next Action)
 	SetNextRequest(next Request)
-	Handle(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error)
-	HandleQuery(query cqrs_queries.IQuery) cqrs_queries.IResponse
+	Handle(command commands.ICommand) (commands.IResponse, error)
+	HandleQuery(query queries.IQuery) (queries.IResponse, error)
 }
 
 type Behavior struct {
