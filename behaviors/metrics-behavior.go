@@ -37,7 +37,7 @@ func (behavior *MetricsBehavior) Handle(command cqrs_commands.ICommand) (cqrs_co
 	return behavior.Next(command)
 }
 
-func (behavior *MetricsBehavior) HandleQuery(query cqrs_queries.IQuery) cqrs_queries.IResponse {
+func (behavior *MetricsBehavior) HandleQuery(query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
 	start := time.Now()
 
 	actionName := generateActionName(query)

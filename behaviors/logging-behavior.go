@@ -21,15 +21,16 @@ func (behavior *LoggingBehavior) SetNextRequest(next Request) {
 
 func (behavior *LoggingBehavior) Handle(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
 	behavior.logger.Standard.Info().Interface("serialized-command", command)
-	defer behavior.logger.Standard.Info().Msgf("Log end")
-	return behavior.Next(command)
+	response, err := behavior.Next(command)
+	defer behavior.logger.Standard.Info().Interface("command-return", response)
+	return response, err
 }
 
-func (behavior *LoggingBehavior) HandleQuery(query cqrs_queries.IQuery) cqrs_queries.IResponse {
+func (behavior *LoggingBehavior) HandleQuery(query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
 	behavior.logger.Standard.Info().Interface("serialized-query", query)
-	response := behavior.NextRequest(query)
+	response, err := behavior.NextRequest(query)
 	defer behavior.logger.Standard.Info().Interface("query-return", response)
-	return response
+	return response, err
 }
 
 func NewLoggingBehavior(logger *logging.Logger) IBehavior {

@@ -30,7 +30,7 @@ func (behavior *EventDispatchBehavior) Handle(command cqrs_commands.ICommand) (c
 	return response, err
 }
 
-func (behavior *EventDispatchBehavior) HandleQuery(query cqrs_queries.IQuery) cqrs_queries.IResponse {
+func (behavior *EventDispatchBehavior) HandleQuery(query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
 	return behavior.NextRequest(query)
 }
 

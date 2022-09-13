@@ -7,5 +7,5 @@ type IResponse interface {
 }
 
 type IQueryHandler interface {
-	HandleQuery(query IQuery) IResponse
+	HandleQuery(query IQuery) (IResponse, error)
 }
