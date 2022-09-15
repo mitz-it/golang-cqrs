@@ -6,5 +6,5 @@ type IResponse interface {
 }
 
 type ICommandHandler interface {
-	Handle(command ICommand) (IResponse, error)
+	HandleCommand(command ICommand) (IResponse, error)
 }

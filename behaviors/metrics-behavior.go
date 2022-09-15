@@ -15,15 +15,15 @@ type MetricsBehavior struct {
 	logger *logging.Logger
 }
 
-func (behavior *MetricsBehavior) SetNext(next Action) {
-	behavior.Next = next
+func (behavior *MetricsBehavior) SetNextAction(next Action) {
+	behavior.NextAction = next
 }
 
 func (behavior *MetricsBehavior) SetNextRequest(next Request) {
 	behavior.NextRequest = next
 }
 
-func (behavior *MetricsBehavior) Handle(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
+func (behavior *MetricsBehavior) HandleCommand(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
 	start := time.Now()
 
 	actionName := generateActionName(command)
@@ -34,7 +34,7 @@ func (behavior *MetricsBehavior) Handle(command cqrs_commands.ICommand) (cqrs_co
 		behavior.logger.Standard.Info().Msgf("command %s duration: %d ms", actionName, int(end.Milliseconds()))
 	}()
 
-	return behavior.Next(command)
+	return behavior.NextAction(command)
 }
 
 func (behavior *MetricsBehavior) HandleQuery(query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {

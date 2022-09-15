@@ -11,17 +11,17 @@ type LoggingBehavior struct {
 	logger *logging.Logger
 }
 
-func (behavior *LoggingBehavior) SetNext(next Action) {
-	behavior.Next = next
+func (behavior *LoggingBehavior) SetNextAction(next Action) {
+	behavior.NextAction = next
 }
 
 func (behavior *LoggingBehavior) SetNextRequest(next Request) {
 	behavior.NextRequest = next
 }
 
-func (behavior *LoggingBehavior) Handle(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
+func (behavior *LoggingBehavior) HandleCommand(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
 	behavior.logger.Standard.Info().Interface("serialized-command", command)
-	response, err := behavior.Next(command)
+	response, err := behavior.NextAction(command)
 	defer behavior.logger.Standard.Info().Interface("command-return", response)
 	return response, err
 }

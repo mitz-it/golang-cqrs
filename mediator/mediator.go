@@ -42,8 +42,8 @@ func (mediator Mediator) Send(command cqrs_commands.ICommand) (cqrs_commands.IRe
 
 	handler := mediator.handlers[position]
 
-	mediator.commandBehaviors[len(mediator.commandBehaviors)-1].SetNext(handler.Handle)
-	return mediator.commandBehaviors[0].Handle(command)
+	mediator.commandBehaviors[len(mediator.commandBehaviors)-1].SetNextAction(handler.HandleCommand)
+	return mediator.commandBehaviors[0].HandleCommand(command)
 }
 
 func (mediator Mediator) Request(query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
@@ -95,9 +95,9 @@ func sortCommandBehaviors(behaviors []cqrs_behaviors.IBehavior) []cqrs_behaviors
 func NewMediator(params MediatorParams) IMediator {
 	for index, behavior := range sortCommandBehaviors(params.CommandBehaviors) {
 		if index < len(params.CommandBehaviors)-1 {
-			behavior.SetNext(params.CommandBehaviors[index+1].Handle)
+			behavior.SetNextAction(params.CommandBehaviors[index+1].HandleCommand)
 		} else {
-			behavior.SetNext(nil)
+			behavior.SetNextAction(nil)
 		}
 	}
 
