@@ -25,17 +25,17 @@ type ValidationBehaviorParams struct {
 	QueryValidators   []validators.IQueryValidator   `group:"QueryValidators"`
 }
 
-func (behavior *ValidationBehavior) SetNext(next Action) {
-	behavior.Next = next
+func (behavior *ValidationBehavior) SetNextAction(next Action) {
+	behavior.NextAction = next
 }
 
 func (behavior *ValidationBehavior) SetNextRequest(next Request) {
 	behavior.NextRequest = next
 }
 
-func (behavior *ValidationBehavior) Handle(command commands.ICommand) (commands.IResponse, error) {
+func (behavior *ValidationBehavior) HandleCommand(command commands.ICommand) (commands.IResponse, error) {
 	if behavior.commandValidators == nil || len(behavior.commandValidators) <= 0 {
-		return behavior.Next(command)
+		return behavior.NextAction(command)
 	}
 
 	index := slices.IndexFunc(behavior.commandValidators, func(validator validators.ICommandValidator) bool {
@@ -54,7 +54,7 @@ func (behavior *ValidationBehavior) Handle(command commands.ICommand) (commands.
 		}
 	}
 
-	return behavior.Next(command)
+	return behavior.NextAction(command)
 }
 
 func (behavior *ValidationBehavior) HandleQuery(query queries.IQuery) (queries.IResponse, error) {
@@ -78,7 +78,7 @@ func (behavior *ValidationBehavior) HandleQuery(query queries.IQuery) (queries.I
 		}
 	}
 
-	return behavior.Next(query)
+	return behavior.NextRequest(query)
 }
 
 func NewValidationBehavior(params ValidationBehaviorParams) IBehavior {

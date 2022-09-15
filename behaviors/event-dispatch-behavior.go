@@ -15,16 +15,16 @@ type EventDispatchBehavior struct {
 	logger          *logging.Logger
 }
 
-func (behavior *EventDispatchBehavior) SetNext(next Action) {
-	behavior.Next = next
+func (behavior *EventDispatchBehavior) SetNextAction(next Action) {
+	behavior.NextAction = next
 }
 
 func (behavior *EventDispatchBehavior) SetNextRequest(next Request) {
 	behavior.NextRequest = next
 }
 
-func (behavior *EventDispatchBehavior) Handle(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
-	response, err := behavior.Next(command)
+func (behavior *EventDispatchBehavior) HandleCommand(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
+	response, err := behavior.NextAction(command)
 	behavior.logger.Standard.Info().Msgf("dispatching domain events")
 	behavior.eventDispatcher.CommitDomainEventsStack()
 	return response, err
