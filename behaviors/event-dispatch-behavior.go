@@ -28,7 +28,7 @@ func (behavior *EventDispatchBehavior) SetNextRequest(next Request) {
 func (behavior *EventDispatchBehavior) HandleCommand(ctx context.Context, command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
 	response, err := behavior.NextAction(ctx, command)
 	behavior.logger.Standard.Info().Msgf("dispatching domain events")
-	behavior.eventDispatcher.CommitDomainEventsStack()
+	behavior.eventDispatcher.CommitDomainEventsStack(ctx)
 	return response, err
 }
 
