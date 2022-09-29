@@ -1,6 +1,7 @@
 package cqrs_behaviors
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
@@ -33,9 +34,9 @@ func (behavior *ValidationBehavior) SetNextRequest(next Request) {
 	behavior.NextRequest = next
 }
 
-func (behavior *ValidationBehavior) HandleCommand(command commands.ICommand) (commands.IResponse, error) {
+func (behavior *ValidationBehavior) HandleCommand(ctx context.Context, command commands.ICommand) (commands.IResponse, error) {
 	if behavior.commandValidators == nil || len(behavior.commandValidators) <= 0 {
-		return behavior.NextAction(command)
+		return behavior.NextAction(ctx, command)
 	}
 
 	index := slices.IndexFunc(behavior.commandValidators, func(validator validators.ICommandValidator) bool {
@@ -54,12 +55,12 @@ func (behavior *ValidationBehavior) HandleCommand(command commands.ICommand) (co
 		}
 	}
 
-	return behavior.NextAction(command)
+	return behavior.NextAction(ctx, command)
 }
 
-func (behavior *ValidationBehavior) HandleQuery(query queries.IQuery) (queries.IResponse, error) {
+func (behavior *ValidationBehavior) HandleQuery(ctx context.Context, query queries.IQuery) (queries.IResponse, error) {
 	if behavior.queryValidators == nil || len(behavior.queryValidators) <= 0 {
-		return behavior.NextRequest(query)
+		return behavior.NextRequest(ctx, query)
 	}
 
 	index := slices.IndexFunc(behavior.queryValidators, func(validator validators.IQueryValidator) bool {
@@ -78,7 +79,7 @@ func (behavior *ValidationBehavior) HandleQuery(query queries.IQuery) (queries.I
 		}
 	}
 
-	return behavior.NextRequest(query)
+	return behavior.NextRequest(ctx, query)
 }
 
 func NewValidationBehavior(params ValidationBehaviorParams) IBehavior {
