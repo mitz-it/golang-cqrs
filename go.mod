@@ -3,10 +3,10 @@ module github.com/mitz-it/golang-cqrs
 go 1.19
 
 require (
-	github.com/mitz-it/golang-events v0.0.1
+	github.com/mitz-it/golang-events v0.0.2-beta
 	github.com/mitz-it/golang-logging v0.0.1
 	go.uber.org/dig v1.15.0
-	golang.org/x/exp v0.0.0-20220827204233-334a2380cb91
+	golang.org/x/exp v0.0.0-20220929132715-df6207c56b9e
 )
 
 require (

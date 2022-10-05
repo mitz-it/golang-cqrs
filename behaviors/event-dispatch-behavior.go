@@ -1,6 +1,8 @@
 package cqrs_behaviors
 
 import (
+	"context"
+
 	cqrs_commands "github.com/mitz-it/golang-cqrs/commands"
 	logging "github.com/mitz-it/golang-logging"
 
@@ -23,15 +25,15 @@ func (behavior *EventDispatchBehavior) SetNextRequest(next Request) {
 	behavior.NextRequest = next
 }
 
-func (behavior *EventDispatchBehavior) HandleCommand(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
-	response, err := behavior.NextAction(command)
+func (behavior *EventDispatchBehavior) HandleCommand(ctx context.Context, command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
+	response, err := behavior.NextAction(ctx, command)
 	behavior.logger.Standard.Info().Msgf("dispatching domain events")
-	behavior.eventDispatcher.CommitDomainEventsStack()
+	behavior.eventDispatcher.CommitDomainEventsStack(ctx)
 	return response, err
 }
 
-func (behavior *EventDispatchBehavior) HandleQuery(query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
-	return behavior.NextRequest(query)
+func (behavior *EventDispatchBehavior) HandleQuery(ctx context.Context, query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
+	return behavior.NextRequest(ctx, query)
 }
 
 func NewEventDispatchBehavior(eventDispatcher events.IEventDispatcher, logger *logging.Logger) IBehavior {

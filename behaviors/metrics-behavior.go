@@ -1,6 +1,7 @@
 package cqrs_behaviors
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"time"
@@ -23,7 +24,7 @@ func (behavior *MetricsBehavior) SetNextRequest(next Request) {
 	behavior.NextRequest = next
 }
 
-func (behavior *MetricsBehavior) HandleCommand(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
+func (behavior *MetricsBehavior) HandleCommand(ctx context.Context, command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
 	start := time.Now()
 
 	actionName := generateActionName(command)
@@ -34,10 +35,10 @@ func (behavior *MetricsBehavior) HandleCommand(command cqrs_commands.ICommand) (
 		behavior.logger.Standard.Info().Msgf("command %s duration: %d ms", actionName, int(end.Milliseconds()))
 	}()
 
-	return behavior.NextAction(command)
+	return behavior.NextAction(ctx, command)
 }
 
-func (behavior *MetricsBehavior) HandleQuery(query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
+func (behavior *MetricsBehavior) HandleQuery(ctx context.Context, query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
 	start := time.Now()
 
 	actionName := generateActionName(query)
@@ -48,7 +49,7 @@ func (behavior *MetricsBehavior) HandleQuery(query cqrs_queries.IQuery) (cqrs_qu
 		behavior.logger.Standard.Info().Msgf("query %s duration: %d ms", actionName, int(end.Milliseconds()))
 	}()
 
-	return behavior.NextRequest(query)
+	return behavior.NextRequest(ctx, query)
 }
 
 func generateActionName(handler any) string {

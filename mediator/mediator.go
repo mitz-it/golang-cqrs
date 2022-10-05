@@ -1,6 +1,7 @@
 package cqrs
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
@@ -22,8 +23,8 @@ type MediatorParams struct {
 }
 
 type IMediator interface {
-	Send(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error)
-	Request(query cqrs_queries.IQuery) (cqrs_queries.IResponse, error)
+	Send(ctx context.Context, command cqrs_commands.ICommand) (cqrs_commands.IResponse, error)
+	Request(ctx context.Context, query cqrs_queries.IQuery) (cqrs_queries.IResponse, error)
 }
 
 type Mediator struct {
@@ -33,7 +34,7 @@ type Mediator struct {
 	queryHandlers    []cqrs_queries.IQueryHandler
 }
 
-func (mediator Mediator) Send(command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
+func (mediator Mediator) Send(ctx context.Context, command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
 	position := slices.IndexFunc(mediator.handlers, func(handler cqrs_commands.ICommandHandler) bool {
 		handlerName := fmt.Sprintf("%T", handler)
 		commandName := fmt.Sprintf("%T", command)
@@ -43,10 +44,10 @@ func (mediator Mediator) Send(command cqrs_commands.ICommand) (cqrs_commands.IRe
 	handler := mediator.handlers[position]
 
 	mediator.commandBehaviors[len(mediator.commandBehaviors)-1].SetNextAction(handler.HandleCommand)
-	return mediator.commandBehaviors[0].HandleCommand(command)
+	return mediator.commandBehaviors[0].HandleCommand(ctx, command)
 }
 
-func (mediator Mediator) Request(query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
+func (mediator Mediator) Request(ctx context.Context, query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
 	position := slices.IndexFunc(mediator.queryHandlers, func(handler cqrs_queries.IQueryHandler) bool {
 		handlerName := fmt.Sprintf("%T", handler)
 		commandName := fmt.Sprintf("%T", query)
@@ -57,7 +58,7 @@ func (mediator Mediator) Request(query cqrs_queries.IQuery) (cqrs_queries.IRespo
 
 	mediator.queryBehaviors[len(mediator.queryBehaviors)-1].SetNextRequest(handler.HandleQuery)
 
-	return mediator.queryBehaviors[0].HandleQuery(query)
+	return mediator.queryBehaviors[0].HandleQuery(ctx, query)
 }
 
 func sortCommandBehaviors(behaviors []cqrs_behaviors.IBehavior) []cqrs_behaviors.IBehavior {
