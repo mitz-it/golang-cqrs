@@ -5,10 +5,8 @@ github.com/mattn/go-colorable v0.1.12 h1:jF+Du6AlPIjs2BiUiQlKOX0rt3SujHxPnksPKZb
 github.com/mattn/go-colorable v0.1.12/go.mod h1:u5H1YNBxpqRaxsYJYSkiCWKzEfiAb1Gb520KVy5xxl4=
 github.com/mattn/go-isatty v0.0.14 h1:yVuAays6BHfxijgZPzw+3Zlu5yQgKGP2/hcQbHb7S9Y=
 github.com/mattn/go-isatty v0.0.14/go.mod h1:7GGIvUiUoEMVVmxf/4nioHXj79iQHKdU27kJ6hsGG94=
-github.com/mitz-it/golang-events v0.0.1 h1:UTq/7hCUvBNBnAgbpdpTcAmNd7bAkPogObzjF8cnktM=
-github.com/mitz-it/golang-events v0.0.1/go.mod h1:Wre+xmKXz4SDJBf4Z9wsXIE1I+R7nOpiACRRCmYZg6o=
-github.com/mitz-it/golang-events v0.0.2-beta h1:5+6nOk3u99O1GQvH0H3lrVXKDq844lnfxIrfR6zxTrI=
-github.com/mitz-it/golang-events v0.0.2-beta/go.mod h1:Wre+xmKXz4SDJBf4Z9wsXIE1I+R7nOpiACRRCmYZg6o=
+github.com/mitz-it/golang-events v0.0.2 h1:uHPYIqFayPuBHIz17BGzWS2kt8fFMhxLIEKvJkTXI7k=
+github.com/mitz-it/golang-events v0.0.2/go.mod h1:Wre+xmKXz4SDJBf4Z9wsXIE1I+R7nOpiACRRCmYZg6o=
 github.com/mitz-it/golang-logging v0.0.1 h1:YkVt+3037yoJMDZHe3H+ILvvqMQ9ijrCoZ+8anzS4F4=
 github.com/mitz-it/golang-logging v0.0.1/go.mod h1:NlGIh9TOzdQJNJpvOjOolTid8nQ7WbbBDWQaEb8ADPY=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
@@ -19,10 +17,8 @@ github.com/rs/zerolog v1.28.0/go.mod h1:NILgTygv/Uej1ra5XxGf82ZFSLk58MFGAUS2o6us
 github.com/stretchr/testify v1.7.1 h1:5TQK59W5E3v0r2duFAb7P95B6hEeOyEnHRa8MjYSMTY=
 go.uber.org/dig v1.15.0 h1:vq3YWr8zRj1eFGC7Gvf907hE0eRjPTZ1d3xHadD6liE=
 go.uber.org/dig v1.15.0/go.mod h1:pKHs0wMynzL6brANhB2hLMro+zalv1osARTviTcqHLM=
-golang.org/x/exp v0.0.0-20220827204233-334a2380cb91 h1:tnebWN09GYg9OLPss1KXj8txwZc6X6uMr6VFdcGNbHw=
-golang.org/x/exp v0.0.0-20220827204233-334a2380cb91/go.mod h1:cyybsKvd6eL0RnXn6p/Grxp8F5bW7iYuBgsNCOHpMYE=
-golang.org/x/exp v0.0.0-20220929132715-df6207c56b9e h1:CEsRTv4qpqnMsjX0sa7g7EarLEN7mA1LYcQK44QRno8=
-golang.org/x/exp v0.0.0-20220929132715-df6207c56b9e/go.mod h1:cyybsKvd6eL0RnXn6p/Grxp8F5bW7iYuBgsNCOHpMYE=
+golang.org/x/exp v0.0.0-20221012211006-4de253d81b95 h1:sBdrWpxhGDdTAYNqbgBLAR+ULAPPhfgncLr1X0lyWtg=
+golang.org/x/exp v0.0.0-20221012211006-4de253d81b95/go.mod h1:cyybsKvd6eL0RnXn6p/Grxp8F5bW7iYuBgsNCOHpMYE=
 golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20210927094055-39ccf1dd6fa6/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f h1:v4INt8xihDGvnrfjMDVXGxw9wrfxYyCjk0KbXjhR55s=
