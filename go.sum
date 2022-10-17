@@ -7,6 +7,8 @@ github.com/mattn/go-isatty v0.0.14 h1:yVuAays6BHfxijgZPzw+3Zlu5yQgKGP2/hcQbHb7S9
 github.com/mattn/go-isatty v0.0.14/go.mod h1:7GGIvUiUoEMVVmxf/4nioHXj79iQHKdU27kJ6hsGG94=
 github.com/mitz-it/golang-events v0.0.2 h1:uHPYIqFayPuBHIz17BGzWS2kt8fFMhxLIEKvJkTXI7k=
 github.com/mitz-it/golang-events v0.0.2/go.mod h1:Wre+xmKXz4SDJBf4Z9wsXIE1I+R7nOpiACRRCmYZg6o=
+github.com/mitz-it/golang-events v0.0.3 h1:oogMhAAU3JFYiCPVrcZxW/3pv5/+b/l/h0wBAcjyVto=
+github.com/mitz-it/golang-events v0.0.3/go.mod h1:Wre+xmKXz4SDJBf4Z9wsXIE1I+R7nOpiACRRCmYZg6o=
 github.com/mitz-it/golang-logging v0.0.1 h1:YkVt+3037yoJMDZHe3H+ILvvqMQ9ijrCoZ+8anzS4F4=
 github.com/mitz-it/golang-logging v0.0.1/go.mod h1:NlGIh9TOzdQJNJpvOjOolTid8nQ7WbbBDWQaEb8ADPY=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
