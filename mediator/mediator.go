@@ -43,7 +43,12 @@ func (mediator Mediator) Send(ctx context.Context, command cqrs_commands.IComman
 
 	handler := mediator.handlers[position]
 
+	if len(mediator.commandBehaviors) <= 0 {
+		return handler.HandleCommand(ctx, command)
+	}
+
 	mediator.commandBehaviors[len(mediator.commandBehaviors)-1].SetNextAction(handler.HandleCommand)
+
 	return mediator.commandBehaviors[0].HandleCommand(ctx, command)
 }
 
@@ -55,6 +60,10 @@ func (mediator Mediator) Request(ctx context.Context, query cqrs_queries.IQuery)
 	})
 
 	handler := mediator.queryHandlers[position]
+
+	if len(mediator.queryBehaviors) <= 0 {
+		return handler.HandleQuery(ctx, query)
+	}
 
 	mediator.queryBehaviors[len(mediator.queryBehaviors)-1].SetNextRequest(handler.HandleQuery)
 
@@ -93,15 +102,7 @@ func sortCommandBehaviors(behaviors []cqrs_behaviors.IBehavior) []cqrs_behaviors
 	return behaviors
 }
 
-func NewMediator(params MediatorParams) IMediator {
-	for index, behavior := range sortCommandBehaviors(params.CommandBehaviors) {
-		if index < len(params.CommandBehaviors)-1 {
-			behavior.SetNextAction(params.CommandBehaviors[index+1].HandleCommand)
-		} else {
-			behavior.SetNextAction(nil)
-		}
-	}
-
+func configureQueryBehaviors(params MediatorParams) {
 	for index, behavior := range params.QueryBehaviors {
 		if index < len(params.QueryBehaviors)-1 {
 			behavior.SetNextRequest(params.QueryBehaviors[index+1].HandleQuery)
@@ -109,6 +110,27 @@ func NewMediator(params MediatorParams) IMediator {
 			behavior.SetNextRequest(nil)
 		}
 	}
+}
+
+func configureCommandBehaviors(params MediatorParams) {
+	if len(params.CommandBehaviors) <= 0 {
+		return
+	}
+
+	for index, behavior := range sortCommandBehaviors(params.CommandBehaviors) {
+		if index < len(params.CommandBehaviors)-1 {
+			behavior.SetNextAction(params.CommandBehaviors[index+1].HandleCommand)
+		} else {
+			behavior.SetNextAction(nil)
+		}
+	}
+}
+
+func NewMediator(params MediatorParams) IMediator {
+	configureCommandBehaviors(params)
+
+	configureQueryBehaviors(params)
+
 	return Mediator{
 		commandBehaviors: params.CommandBehaviors,
 		queryBehaviors:   params.QueryBehaviors,
