@@ -2,6 +2,7 @@ package cqrs
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"strings"
 
@@ -41,6 +42,12 @@ func (mediator Mediator) Send(ctx context.Context, command cqrs_commands.IComman
 		return strings.Contains(handlerName, commandName)
 	})
 
+	if position <= -1 {
+		message := fmt.Sprintf("command handler not found for command of type: %T", command)
+		err := errors.New(message)
+		panic(err)
+	}
+
 	handler := mediator.handlers[position]
 
 	if len(mediator.commandBehaviors) <= 0 {
@@ -58,6 +65,12 @@ func (mediator Mediator) Request(ctx context.Context, query cqrs_queries.IQuery)
 		commandName := fmt.Sprintf("%T", query)
 		return strings.Contains(handlerName, commandName)
 	})
+
+	if position <= -1 {
+		message := fmt.Sprintf("query handler not found for query of type: %T", query)
+		err := errors.New(message)
+		panic(err)
+	}
 
 	handler := mediator.queryHandlers[position]
 
