@@ -7,7 +7,7 @@ import (
 
 	commands "github.com/mitz-it/golang-cqrs/commands"
 	queries "github.com/mitz-it/golang-cqrs/queries"
-	validators "github.com/mitz-it/golang-cqrs/validators"
+	validators "github.com/mitz-it/golang-validation"
 
 	"go.uber.org/dig"
 	"golang.org/x/exp/slices"
@@ -15,15 +15,15 @@ import (
 
 type ValidationBehavior struct {
 	Behavior
-	commandValidators []validators.ICommandValidator
-	queryValidators   []validators.IQueryValidator
+	commandValidators []validators.IValidator
+	queryValidators   []validators.IValidator
 }
 
 type ValidationBehaviorParams struct {
 	dig.In
 
-	CommandValidators []validators.ICommandValidator `group:"CommandValidators"`
-	QueryValidators   []validators.IQueryValidator   `group:"QueryValidators"`
+	CommandValidators []validators.IValidator `group:"CommandValidators"`
+	QueryValidators   []validators.IValidator `group:"QueryValidators"`
 }
 
 func (behavior *ValidationBehavior) SetNextAction(next Action) {
@@ -39,7 +39,7 @@ func (behavior *ValidationBehavior) HandleCommand(ctx context.Context, command c
 		return behavior.NextAction(ctx, command)
 	}
 
-	index := slices.IndexFunc(behavior.commandValidators, func(validator validators.ICommandValidator) bool {
+	index := slices.IndexFunc(behavior.commandValidators, func(validator validators.IValidator) bool {
 		validatorSplittedName := strings.Split(fmt.Sprintf("%T", validator), ".")
 		validatorName := validatorSplittedName[len(validatorSplittedName)-1]
 		commandSplittedName := strings.Split(fmt.Sprintf("%T", command), ".")
@@ -63,7 +63,7 @@ func (behavior *ValidationBehavior) HandleQuery(ctx context.Context, query queri
 		return behavior.NextRequest(ctx, query)
 	}
 
-	index := slices.IndexFunc(behavior.queryValidators, func(validator validators.IQueryValidator) bool {
+	index := slices.IndexFunc(behavior.queryValidators, func(validator validators.IValidator) bool {
 		validatorSplittedName := strings.Split(fmt.Sprintf("%T", validator), ".")
 		validatorName := validatorSplittedName[len(validatorSplittedName)-1]
 		querySplittedName := strings.Split(fmt.Sprintf("%T", query), ".")

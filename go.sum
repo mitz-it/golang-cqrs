@@ -15,6 +15,8 @@ github.com/mitz-it/golang-events v0.0.3 h1:oogMhAAU3JFYiCPVrcZxW/3pv5/+b/l/h0wBA
 github.com/mitz-it/golang-events v0.0.3/go.mod h1:Wre+xmKXz4SDJBf4Z9wsXIE1I+R7nOpiACRRCmYZg6o=
 github.com/mitz-it/golang-logging v0.0.1 h1:YkVt+3037yoJMDZHe3H+ILvvqMQ9ijrCoZ+8anzS4F4=
 github.com/mitz-it/golang-logging v0.0.1/go.mod h1:NlGIh9TOzdQJNJpvOjOolTid8nQ7WbbBDWQaEb8ADPY=
+github.com/mitz-it/golang-validation v1.0.0 h1:zYqNogZp9vPxS8geK69tbCpTsvV4BKR0VqoJe0YYUhI=
+github.com/mitz-it/golang-validation v1.0.0/go.mod h1:tzZRVTr3mIMG3Vb5N2hC6dZK/TZwiBXJwltLxKlSnZo=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=

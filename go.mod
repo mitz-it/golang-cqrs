@@ -9,6 +9,8 @@ require (
 	golang.org/x/exp v0.0.0-20221012211006-4de253d81b95
 )
 
+require github.com/mitz-it/golang-validation v1.0.0 // indirect
+
 require (
 	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
 	github.com/mattn/go-colorable v0.1.12 // indirect
