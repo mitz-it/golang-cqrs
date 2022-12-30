@@ -10,6 +10,7 @@ require (
 )
 
 require (
+	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/rs/zerolog v1.28.0 // indirect
