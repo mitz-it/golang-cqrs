@@ -1,12 +1,12 @@
-package cqrs_behaviors
+package behaviors
 
 import (
 	"context"
 	"fmt"
 	"strings"
 
-	commands "github.com/mitz-it/golang-cqrs/commands"
-	queries "github.com/mitz-it/golang-cqrs/queries"
+	commands "github.com/mitz-it/golang-cqrs/commands/v2"
+	queries "github.com/mitz-it/golang-cqrs/queries/v2"
 	validators "github.com/mitz-it/golang-validation"
 
 	"go.uber.org/dig"

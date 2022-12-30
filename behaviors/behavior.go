@@ -1,11 +1,10 @@
-package cqrs_behaviors
+package behaviors
 
 import (
 	"context"
 
-	commands "github.com/mitz-it/golang-cqrs/commands"
-
-	queries "github.com/mitz-it/golang-cqrs/queries"
+	"github.com/mitz-it/golang-cqrs/commands/v2"
+	"github.com/mitz-it/golang-cqrs/queries/v2"
 )
 
 type Action func(ctx context.Context, command commands.ICommand) (commands.IResponse, error)

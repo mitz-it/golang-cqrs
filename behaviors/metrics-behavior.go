@@ -1,4 +1,4 @@
-package cqrs_behaviors
+package behaviors
 
 import (
 	"context"
@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	cqrs_commands "github.com/mitz-it/golang-cqrs/commands"
-	cqrs_queries "github.com/mitz-it/golang-cqrs/queries"
+	"github.com/mitz-it/golang-cqrs/commands/v2"
+	"github.com/mitz-it/golang-cqrs/queries/v2"
 	logging "github.com/mitz-it/golang-logging"
 )
 
@@ -24,7 +24,7 @@ func (behavior *MetricsBehavior) SetNextRequest(next Request) {
 	behavior.NextRequest = next
 }
 
-func (behavior *MetricsBehavior) HandleCommand(ctx context.Context, command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
+func (behavior *MetricsBehavior) HandleCommand(ctx context.Context, command commands.ICommand) (commands.IResponse, error) {
 	start := time.Now()
 
 	actionName := generateActionName(command)
@@ -38,7 +38,7 @@ func (behavior *MetricsBehavior) HandleCommand(ctx context.Context, command cqrs
 	return behavior.NextAction(ctx, command)
 }
 
-func (behavior *MetricsBehavior) HandleQuery(ctx context.Context, query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
+func (behavior *MetricsBehavior) HandleQuery(ctx context.Context, query queries.IQuery) (queries.IResponse, error) {
 	start := time.Now()
 
 	actionName := generateActionName(query)

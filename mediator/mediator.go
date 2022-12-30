@@ -9,34 +9,34 @@ import (
 	"go.uber.org/dig"
 	"golang.org/x/exp/slices"
 
-	cqrs_behaviors "github.com/mitz-it/golang-cqrs/behaviors"
-	cqrs_commands "github.com/mitz-it/golang-cqrs/commands"
-	cqrs_queries "github.com/mitz-it/golang-cqrs/queries"
+	"github.com/mitz-it/golang-cqrs/behaviors/v2"
+	"github.com/mitz-it/golang-cqrs/commands/v2"
+	"github.com/mitz-it/golang-cqrs/queries/v2"
 )
 
 type MediatorParams struct {
 	dig.In
 
-	CommandBehaviors []cqrs_behaviors.IBehavior      `group:"CommandBehaviors"`
-	QueryBehaviors   []cqrs_behaviors.IBehavior      `group:"QueryBehaviors"`
-	Handlers         []cqrs_commands.ICommandHandler `group:"CommandHandlers"`
-	QueryHandlers    []cqrs_queries.IQueryHandler    `group:"QueryHandlers"`
+	CommandBehaviors []behaviors.IBehavior      `group:"CommandBehaviors"`
+	QueryBehaviors   []behaviors.IBehavior      `group:"QueryBehaviors"`
+	Handlers         []commands.ICommandHandler `group:"CommandHandlers"`
+	QueryHandlers    []queries.IQueryHandler    `group:"QueryHandlers"`
 }
 
 type IMediator interface {
-	Send(ctx context.Context, command cqrs_commands.ICommand) (cqrs_commands.IResponse, error)
-	Request(ctx context.Context, query cqrs_queries.IQuery) (cqrs_queries.IResponse, error)
+	Send(ctx context.Context, command commands.ICommand) (commands.IResponse, error)
+	Request(ctx context.Context, query queries.IQuery) (queries.IResponse, error)
 }
 
 type Mediator struct {
-	commandBehaviors []cqrs_behaviors.IBehavior
-	queryBehaviors   []cqrs_behaviors.IBehavior
-	handlers         []cqrs_commands.ICommandHandler
-	queryHandlers    []cqrs_queries.IQueryHandler
+	commandBehaviors []behaviors.IBehavior
+	queryBehaviors   []behaviors.IBehavior
+	handlers         []commands.ICommandHandler
+	queryHandlers    []queries.IQueryHandler
 }
 
-func (mediator Mediator) Send(ctx context.Context, command cqrs_commands.ICommand) (cqrs_commands.IResponse, error) {
-	position := slices.IndexFunc(mediator.handlers, func(handler cqrs_commands.ICommandHandler) bool {
+func (mediator Mediator) Send(ctx context.Context, command commands.ICommand) (commands.IResponse, error) {
+	position := slices.IndexFunc(mediator.handlers, func(handler commands.ICommandHandler) bool {
 		handlerName := fmt.Sprintf("%T", handler)
 		commandName := fmt.Sprintf("%T", command)
 		return strings.Contains(handlerName, commandName)
@@ -59,8 +59,8 @@ func (mediator Mediator) Send(ctx context.Context, command cqrs_commands.IComman
 	return mediator.commandBehaviors[0].HandleCommand(ctx, command)
 }
 
-func (mediator Mediator) Request(ctx context.Context, query cqrs_queries.IQuery) (cqrs_queries.IResponse, error) {
-	position := slices.IndexFunc(mediator.queryHandlers, func(handler cqrs_queries.IQueryHandler) bool {
+func (mediator Mediator) Request(ctx context.Context, query queries.IQuery) (queries.IResponse, error) {
+	position := slices.IndexFunc(mediator.queryHandlers, func(handler queries.IQueryHandler) bool {
 		handlerName := fmt.Sprintf("%T", handler)
 		commandName := fmt.Sprintf("%T", query)
 		return strings.Contains(handlerName, commandName)
@@ -83,14 +83,14 @@ func (mediator Mediator) Request(ctx context.Context, query cqrs_queries.IQuery)
 	return mediator.queryBehaviors[0].HandleQuery(ctx, query)
 }
 
-func sortCommandBehaviors(behaviors []cqrs_behaviors.IBehavior) []cqrs_behaviors.IBehavior {
+func sortCommandBehaviors(behaviors []behaviors.IBehavior) []behaviors.IBehavior {
 	firstBehaviorName := fmt.Sprintf("%T", behaviors[0])
 	lastBehaviorName := fmt.Sprintf("%T", behaviors[len(behaviors)-1])
-	validationBehaviorName := fmt.Sprintf("%T", &cqrs_behaviors.ValidationBehavior{})
-	eventDispatchBehaviorName := fmt.Sprintf("%T", &cqrs_behaviors.EventDispatchBehavior{})
+	validationBehaviorName := fmt.Sprintf("%T", &behaviors.ValidationBehavior{})
+	eventDispatchBehaviorName := fmt.Sprintf("%T", &behaviors.EventDispatchBehavior{})
 
 	if firstBehaviorName != validationBehaviorName {
-		validationBehaviorPosition := slices.IndexFunc(behaviors, func(behavior cqrs_behaviors.IBehavior) bool {
+		validationBehaviorPosition := slices.IndexFunc(behaviors, func(behavior behaviors.IBehavior) bool {
 			behaviorName := fmt.Sprintf("%T", behavior)
 			return strings.Contains(behaviorName, validationBehaviorName)
 		})
@@ -101,7 +101,7 @@ func sortCommandBehaviors(behaviors []cqrs_behaviors.IBehavior) []cqrs_behaviors
 	}
 
 	if lastBehaviorName != eventDispatchBehaviorName {
-		eventDispatchBehaviorPosition := slices.IndexFunc(behaviors, func(behavior cqrs_behaviors.IBehavior) bool {
+		eventDispatchBehaviorPosition := slices.IndexFunc(behaviors, func(behavior behaviors.IBehavior) bool {
 			behaviorName := fmt.Sprintf("%T", behavior)
 			return strings.Contains(behaviorName, eventDispatchBehaviorName)
 		})
