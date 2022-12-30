@@ -5,10 +5,11 @@ go 1.19
 require (
 	github.com/mitz-it/golang-events v0.0.3
 	github.com/mitz-it/golang-logging v0.0.1
-	github.com/mitz-it/golang-validation v1.0.0
 	go.uber.org/dig v1.15.0
 	golang.org/x/exp v0.0.0-20221012211006-4de253d81b95
 )
+
+require github.com/mitz-it/golang-validation v1.0.0
 
 require (
 	github.com/go-ozzo/ozzo-validation/v4 v4.3.0 // indirect
