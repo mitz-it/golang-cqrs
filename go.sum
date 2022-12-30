@@ -1,3 +1,4 @@
+github.com/asaskevich/govalidator v0.0.0-20200108200545-475eaeb16496 h1:zV3ejI06GQ59hwDQAvmK1qxOQGB3WuVTRoY0okPTAv0=
 github.com/asaskevich/govalidator v0.0.0-20200108200545-475eaeb16496/go.mod h1:oGkLhpf+kjZl6xBf758TQhh5XrAeiJv/7FRz/2spLIg=
 github.com/coreos/go-systemd/v22 v22.3.3-0.20220203105225-a9a7ef127534/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSVTIJ3seZv2GcEnc=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -9,8 +10,6 @@ github.com/mattn/go-colorable v0.1.12 h1:jF+Du6AlPIjs2BiUiQlKOX0rt3SujHxPnksPKZb
 github.com/mattn/go-colorable v0.1.12/go.mod h1:u5H1YNBxpqRaxsYJYSkiCWKzEfiAb1Gb520KVy5xxl4=
 github.com/mattn/go-isatty v0.0.14 h1:yVuAays6BHfxijgZPzw+3Zlu5yQgKGP2/hcQbHb7S9Y=
 github.com/mattn/go-isatty v0.0.14/go.mod h1:7GGIvUiUoEMVVmxf/4nioHXj79iQHKdU27kJ6hsGG94=
-github.com/mitz-it/golang-events v0.0.2 h1:uHPYIqFayPuBHIz17BGzWS2kt8fFMhxLIEKvJkTXI7k=
-github.com/mitz-it/golang-events v0.0.2/go.mod h1:Wre+xmKXz4SDJBf4Z9wsXIE1I+R7nOpiACRRCmYZg6o=
 github.com/mitz-it/golang-events v0.0.3 h1:oogMhAAU3JFYiCPVrcZxW/3pv5/+b/l/h0wBAcjyVto=
 github.com/mitz-it/golang-events v0.0.3/go.mod h1:Wre+xmKXz4SDJBf4Z9wsXIE1I+R7nOpiACRRCmYZg6o=
 github.com/mitz-it/golang-logging v0.0.1 h1:YkVt+3037yoJMDZHe3H+ILvvqMQ9ijrCoZ+8anzS4F4=
