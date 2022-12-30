@@ -1,4 +1,4 @@
-package cqrs_commands
+package commands
 
 import "context"
 

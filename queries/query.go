@@ -1,4 +1,4 @@
-package cqrs_queries
+package queries
 
 import "context"
 
