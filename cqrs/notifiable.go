@@ -1,4 +1,4 @@
-package mediator
+package cqrs
 
 type INotifiable interface {
 	AddEvent(event interface{})

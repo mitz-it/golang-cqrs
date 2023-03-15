@@ -1,4 +1,4 @@
-package mediator
+package cqrs
 
 import (
 	"context"
