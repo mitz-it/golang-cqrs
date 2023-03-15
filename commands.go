@@ -53,8 +53,7 @@ func Send[TCommand any, TResponse any](ctx context.Context, command TCommand) (T
 	}
 
 	if len(commandBehaviors) <= 0 {
-		response, err := handler.Handle(ctx, command)
-		return response, err
+		return handler.Handle(ctx, command)
 	}
 
 	sortedBehaviors := sortBehaviors(commandBehaviors)

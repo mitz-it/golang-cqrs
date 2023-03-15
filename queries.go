@@ -53,8 +53,7 @@ func Request[TQuery any, TResponse any](ctx context.Context, query TQuery) (TRes
 	}
 
 	if len(queryBehaviors) <= 0 {
-		response, err := handler.Handle(ctx, query)
-		return response, err
+		return handler.Handle(ctx, query)
 	}
 
 	sortedBehaviors := sortBehaviors(queryBehaviors)
