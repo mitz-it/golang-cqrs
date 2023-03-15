@@ -10,12 +10,10 @@ Strongly inspired by:
 ## Installation
 
 ```bash
-go get github.com/mitz-it/golang-cqrs@v1.2.0
+go get -u github.com/mitz-it/golang-cqrs
 ```
 
-## Usage
-
-### Commands
+## Commands Usage
 
 ```go
 // Define a command.
@@ -51,7 +49,7 @@ ctx := context.Background() // When using with OpenTelemetry, be sure to use the
 product, err := mediator.Send[*CreateProduct, *Product](ctx, command)
 ```
 
-### Queries
+## Queries Usage
 
 ```go
 // Define a query.
@@ -87,7 +85,7 @@ ctx := context.Background() // When using with OpenTelemetry, be sure to use the
 product, err := mediator.Request[*GetProduct, *Product](ctx, query)
 ```
 
-### Behaviors
+## Behaviors Usage
 
 Behaviors can be shared between commands and queries, but they need to be registered separately.
 
@@ -119,7 +117,7 @@ order := 0
 mediator.RegisterQueryBehavior(order, behavior)
 ```
 
-### Events
+## Events Usage
 
 ```go
 // Create the event
@@ -151,4 +149,53 @@ err := mediator.PublisEvent(ctx, event)
 mediator.Listen() // Call this method only once in your application, like at main.go
 ctx := context.Background() // When using with OpenTelemetry, be sure to use the received context to propagate it.
 mediator.PublisEventAsync(ctx, event)
+```
+
+## Domain Events Usage
+
+Use the [Events Usage](#events-usage) as setup for this example.
+
+```go
+// implement the INotifiable interface
+type Product struct {
+  // ...
+  events []interface{}
+}
+
+func (p *Product) AddEvent(event interface{}) {
+  p.events = append(p.events, event)
+}
+
+func (p *Product) ClearEvents() {
+  p.events = []interface{}{}
+}
+
+func (p *Product) GetEvents() []interface{} {
+  return p.events
+}
+
+
+// Create a behavior to send events
+type DispatchEventsBehavior struct {
+}
+
+func (behavior *DispatchEventsBehavior) Handle(ctx context.Context, request interface{}, next mediator.NextFunc) (interface{}, error) {
+  res, err := next()
+
+  if err != nil {
+    return res, err
+  }
+
+  n, ok := res.(mediator.INotifiable)
+
+  if !ok {
+    return res, err
+  }
+
+  for _, event := range n.GetEvents() {
+    mediator.PublishEventAsync(ctx, event)
+  }
+
+  return res, errs
+}
 ```
