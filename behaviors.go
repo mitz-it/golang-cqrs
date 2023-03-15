@@ -10,7 +10,7 @@ import (
 type NextFunc func() (interface{}, error)
 
 type IBehavior interface {
-	Handle(ctx context.Context, command interface{}, next NextFunc) (interface{}, error)
+	Handle(ctx context.Context, request interface{}, next NextFunc) (interface{}, error)
 }
 
 var commandBehaviors map[int]interface{}
@@ -49,15 +49,15 @@ func RegisterQueryBehavior(order int, behavior IBehavior) error {
 }
 
 func sortBehaviors(behaviors map[int]interface{}) []interface{} {
-	keys := make([]int, len(behaviors)-1)
+	keys := make([]int, 0)
 
 	for key := range behaviors {
 		keys = append(keys, key)
 	}
 
-	sort.Ints(keys)
+	sort.Sort(sort.Reverse(sort.IntSlice(keys)))
 
-	sorted := make([]interface{}, len(behaviors)-1)
+	sorted := make([]interface{}, 0)
 
 	for _, key := range keys {
 		sorted = append(sorted, behaviors[key])
