@@ -22,4 +22,8 @@ jobs:
 
       - name: Build CQRS package
         shell: bash
-        run: cd ./cqrs && go build
+        run: cd ./cqrs && go build && cd ..
+
+      - name: Build CQRS Dig package
+        shell: bash
+        run: cd ./cqrs_dig && go build && cd ..
