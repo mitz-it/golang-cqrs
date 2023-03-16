@@ -153,7 +153,7 @@ mediator.PublisEventAsync(ctx, event)
 
 ## Domain Events Usage
 
-Use the [Events Usage](#events-usage) as setup for this example.
+Use the [Events Usage](#events-usage) as the setup for this example.
 
 ```go
 // implement the INotifiable interface
