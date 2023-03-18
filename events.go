@@ -2,6 +2,7 @@ package cqrs
 
 import (
 	"context"
+	"errors"
 	"reflect"
 
 	"go.uber.org/multierr"
@@ -38,6 +39,20 @@ func RegisterEventSubscriber[TEvent any](handler IEventHandler[TEvent]) error {
 	}
 
 	eventHandlers[eventType] = append(handlers, handler)
+
+	return nil
+}
+
+func RegisterEventSubscribers[TEvent any](handlers ...IEventHandler[TEvent]) error {
+	if len(handlers) <= 0 {
+		return errors.New("at least one handler must be provided")
+	}
+
+	for _, handler := range handlers {
+		if err := RegisterEventSubscriber(handler); err != nil {
+			return err
+		}
+	}
 
 	return nil
 }
