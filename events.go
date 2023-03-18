@@ -7,7 +7,7 @@ import (
 	"go.uber.org/multierr"
 )
 
-type IEvenHandler[TEvent any] interface {
+type IEventHandler[TEvent any] interface {
 	Handle(ctx context.Context, event TEvent) error
 }
 
@@ -25,7 +25,7 @@ func init() {
 	eventListener = make(chan *EventDelivery)
 }
 
-func RegisterEventSubcriber[TEvent any](handler IEvenHandler[TEvent]) error {
+func RegisterEventSubscriber[TEvent any](handler IEventHandler[TEvent]) error {
 	var event TEvent
 	eventType := reflect.TypeOf(event)
 	handlers, found := eventHandlers[eventType]
@@ -53,7 +53,7 @@ func PublishEvent[TEvent any](ctx context.Context, event TEvent) error {
 	var err error = nil
 
 	for _, h := range handlers {
-		handler, ok := h.(IEvenHandler[TEvent])
+		handler, ok := h.(IEventHandler[TEvent])
 
 		if ok {
 			handleErr := handler.Handle(ctx, event)
