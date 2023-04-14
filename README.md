@@ -1,5 +1,7 @@
 # Go - CQRS
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mitz-it_golang-cqrs&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mitz-it_golang-cqrs) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=mitz-it_golang-cqrs&metric=coverage)](https://sonarcloud.io/summary/new_code?id=mitz-it_golang-cqrs)
+
 A mediator pattern abstraction destined for CQRS usage.
 
 Strongly inspired by:
