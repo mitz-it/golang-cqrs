@@ -1,0 +1,30 @@
+name: Pull Request Lint
+
+on:
+  pull_request:
+
+jobs:
+  lint:
+    name: PR Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check commits
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          wip: true
+          types: |
+            fix
+            feat
+            refactor
+            test
+            chore
+            WIP
+            build
+            ci
