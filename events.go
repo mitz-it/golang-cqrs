@@ -3,6 +3,7 @@ package cqrs
 import (
 	"context"
 	"errors"
+	"fmt"
 	"reflect"
 
 	"go.uber.org/multierr"
@@ -49,9 +50,7 @@ func RegisterEventSubscribers[TEvent any](handlers ...IEventHandler[TEvent]) err
 	}
 
 	for _, handler := range handlers {
-		if err := RegisterEventSubscriber(handler); err != nil {
-			return err
-		}
+		RegisterEventSubscriber(handler)
 	}
 
 	return nil
@@ -62,7 +61,8 @@ func PublishEvent[TEvent any](ctx context.Context, event TEvent) error {
 	handlers, found := eventHandlers[eventType]
 
 	if !found {
-		return nil
+		msg := fmt.Sprintf("no event handler found event of type: %T", event)
+		return errors.New(msg)
 	}
 
 	var err error = nil
@@ -74,7 +74,7 @@ func PublishEvent[TEvent any](ctx context.Context, event TEvent) error {
 			handleErr := handler.Handle(ctx, event)
 
 			if handleErr != nil {
-				multierr.Append(err, handleErr)
+				err = multierr.Append(err, handleErr)
 			}
 
 			continue
@@ -90,7 +90,7 @@ func PublishEvent[TEvent any](ctx context.Context, event TEvent) error {
 		handleErr := r[0].Interface()
 
 		if handleErr != nil {
-			multierr.Append(err, handleErr.(error))
+			err = multierr.Append(err, handleErr.(error))
 		}
 	}
 
