@@ -40,7 +40,7 @@ func (h *CreateProductHandler) Handle(ctx context.Context, c *CreateProduct) (*P
 
 // Register the handler.
 handler := &CreateProductHandler{}
-mediator.RegisterCommandHandler[*CreateProduct, *Product](handler)
+cqrs.RegisterCommandHandler[*CreateProduct, *Product](handler)
 
 // Send the command.
 command := &CreateProduct {
@@ -48,7 +48,7 @@ command := &CreateProduct {
 }
 
 ctx := context.Background() // When using with OpenTelemetry, be sure to use the received context to propagate it.
-product, err := mediator.Send[*CreateProduct, *Product](ctx, command)
+product, err := cqrs.Send[*CreateProduct, *Product](ctx, command)
 ```
 
 ## Queries Usage
@@ -76,7 +76,7 @@ func (h *GetProductHandler) Handle(ctx context.Context, c *GetProduct) (*Product
 
 // Register the handler.
 handler := &GetProductHandler{}
-mediator.RegisterQueryHandler[*GetProduct, *Product](handler)
+cqrs.RegisterQueryHandler[*GetProduct, *Product](handler)
 
 // Request the query data.
 query := &GetProduct {
@@ -84,7 +84,7 @@ query := &GetProduct {
 }
 
 ctx := context.Background() // When using with OpenTelemetry, be sure to use the received context to propagate it.
-product, err := mediator.Request[*GetProduct, *Product](ctx, query)
+product, err := cqrs.Request[*GetProduct, *Product](ctx, query)
 ```
 
 ## Behaviors Usage
@@ -101,7 +101,7 @@ type LoggingBehavior struct {
 }
 
 // Implement the IBehavior Interface
-func (b *LoggingBehavior) Handle(ctx context.Context, request interface{}, next mediator.NextFunc) (interface{}, error) {
+func (b *LoggingBehavior) Handle(ctx context.Context, request interface{}, next cqrs.NextFunc) (interface{}, error) {
   logger.Log.Info("processing request...")
   res, err := next()
   logger.Log.Info("request processed...")
@@ -111,12 +111,12 @@ func (b *LoggingBehavior) Handle(ctx context.Context, request interface{}, next 
 // Register the behavior for commands
 behavior := &LoggingBehavior{}
 order := 0
-mediator.RegisterCommandBehavior(order, behavior)
+cqrs.RegisterCommandBehavior(order, behavior)
 
 // Register the behavior for queries
 behavior := &LoggingBehavior{}
 order := 0
-mediator.RegisterQueryBehavior(order, behavior)
+cqrs.RegisterQueryBehavior(order, behavior)
 ```
 
 ## Events Usage
@@ -139,18 +139,18 @@ func (h *ProductCreatedHandler) Handle(ctx context.Context, event *ProductCreate
 
 // Register the event handler
 handler := &ProductCreatedHandler{}
-mediator.RegisterEventSubcriber[*ProductCreated](handler)
+cqrs.RegisterEventSubcriber[*ProductCreated](handler)
 
 
 // Send an event synchronously
 event := &ProductCreated{}
 ctx := context.Background() // When using with OpenTelemetry, be sure to use the received context to propagate it.
-err := mediator.PublisEvent(ctx, event)
+err := cqrs.PublisEvent(ctx, event)
 
 // Send a fire and forget event
-mediator.Listen() // Call this method only once in your application, like at main.go
+cqrs.Listen() // Call this method only once in your application, like at main.go
 ctx := context.Background() // When using with OpenTelemetry, be sure to use the received context to propagate it.
-mediator.PublisEventAsync(ctx, event)
+cqrs.PublisEventAsync(ctx, event)
 ```
 
 ## Domain Events Usage
@@ -181,21 +181,21 @@ func (p *Product) GetEvents() []interface{} {
 type DispatchEventsBehavior struct {
 }
 
-func (behavior *DispatchEventsBehavior) Handle(ctx context.Context, request interface{}, next mediator.NextFunc) (interface{}, error) {
+func (behavior *DispatchEventsBehavior) Handle(ctx context.Context, request interface{}, next cqrs.NextFunc) (interface{}, error) {
   res, err := next()
 
   if err != nil {
     return res, err
   }
 
-  n, ok := res.(mediator.INotifiable)
+  n, ok := res.(cqrs.INotifiable)
 
   if !ok {
     return res, err
   }
 
   for _, event := range n.GetEvents() {
-    mediator.PublishEventAsync(ctx, event)
+    cqrs.PublishEventAsync(ctx, event)
   }
 
   return res, errs
