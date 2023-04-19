@@ -139,7 +139,7 @@ func (h *ProductCreatedHandler) Handle(ctx context.Context, event *ProductCreate
 
 // Register the event handler
 handler := &ProductCreatedHandler{}
-cqrs.RegisterEventSubcriber[*ProductCreated](handler)
+cqrs.RegisterEventSubscriber[*ProductCreated](handler)
 
 
 // Send an event synchronously
